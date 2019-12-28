@@ -1,25 +1,21 @@
 from tkinter import *
-from NeuralNetwork import *
+from VanillaMLP import *
 from Drawing import *
-from NeuralNetworkOptions import *
-from NeuralNetworkTraining import *
-from NeuralNetworkQueueing import *
+from Options import *
+from Training import *
+from Queueing import *
 
-# General bugfixing
-# The output is still very finnicky and nowhere near as accurate as the training dataset. Something seems off.
-# Possible points of error:
-# My drawing functionality creates pixel values that are very removed from the training data.
-# My way of handling the output values (and perhaps how it pertains to their scientific notaion when they are in a numpy array) means that I'm displaying them incorrectly, and that the network is actually giving solid output
+# TODO
+# - The output is still finnicky and far from as accurate as the training dataset. Something seems off.
 
-# General GUI Ideas:
-# Make more responsive - scroll bars for some text? for the whole window? pop-ups for errors?
+# - Make GUI more responsive - scroll bars for some text? for the whole window? pop-ups for errors?
 # At the least, make it so the window doesn't need to strech greatly to display the output
 
-# NeuralNetwork:
-# Give the ability to have more than one hidden layers
-# Generally rethink the structure
-# Don't use numpy stuff unecessarily
+# - More explicitly seperate Model, View, and Controller using appropriate design patterns
 
+# - Create README
+
+# - Improve directory structure to mirror that of a legit Python App
 
 class App(Tk):
 
@@ -29,32 +25,29 @@ class App(Tk):
 
         self.title("Josh's Number-Recognizing Neural Network")
 
-        self.neuralNetwork = None
+        self.mlp = None
 
         self.drawing = Drawing(self)
-
-        self.neuralNetworkOptions = NeuralNetworkOptions(self)
-
-        self.neuralNetworkTraining = NeuralNetworkTraining(self)
-
-        self.neuralNetworkQueueing = NeuralNetworkQueueing(self)
+        self.options = Options(self)
+        self.training = Training(self)
+        self.queueing = Queueing(self)
 
         self.mainloop()
 
-    def updateNeuralNetwork(self):
-        tempNeuralNetwork = self.neuralNetworkOptions.getNeuralNetwork()
-        if tempNeuralNetwork:
-            self.neuralNetwork = tempNeuralNetwork
-            self.neuralNetworkOptions.updateNeuralNetworkOptionsString(self.neuralNetwork)
-            self.neuralNetworkTraining.activate()
-            self.neuralNetworkQueueing.activate()
+    def update_mlp(self):
+        temp_mlp = self.options.getMLP()
+        if temp_mlp:
+            self.mlp = temp_mlp
+            self.options.update_options_string(self.mlp)
+            self.training.activate()
+            self.queueing.activate()
 
-    def trainNeuralNetwork(self):
-        self.neuralNetworkTraining.trainNeuralNetwork(self.neuralNetwork)
+    def train_mlp(self):
+        self.training.train_mlp(self.mlp)
 
-    def queueDrawnDigitInNeuralNetwork(self):
-        imagePixels = self.drawing.getDrawingPixelList()
-        self.neuralNetworkQueueing.queueDrawnDigit(self.neuralNetwork, imagePixels)
+    def queue_drawing_in_mlp(self):
+        pixels = self.drawing.get_pixel_list()
+        self.queueing.queue_drawing(self.mlp, pixels)
 
 
 if __name__ == "__main__":
