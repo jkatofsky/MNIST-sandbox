@@ -1,5 +1,5 @@
 from tkinter import *
-from VanillaMLP import *
+from MLP import *
 
 
 class Options:
@@ -37,7 +37,7 @@ class Options:
         try:
             hidden_nodes = int(self.hidden_nodes_input.get())
             learning_rate = float(self.learning_rate_input.get())
-            return VanillaMLP(inputNodes=784, hidden_nodes=hidden_nodes,
+            return MLP(inputNodes=784, hidden_nodes=hidden_nodes,
                               outputNodes=10, learning_rate=learning_rate)
         except ValueError:
             return None

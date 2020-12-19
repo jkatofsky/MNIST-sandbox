@@ -1,5 +1,5 @@
 from tkinter import *
-from VanillaMLP import *
+from MLP import *
 import numpy
 import os
 import random

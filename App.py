@@ -1,21 +1,9 @@
 from tkinter import *
-from VanillaMLP import *
+from MLP import *
 from Drawing import *
 from Options import *
 from Training import *
 from Queueing import *
-
-# TODO
-# - The output is still finnicky and far from as accurate as the training dataset. Something seems off.
-
-# - Make GUI more responsive - scroll bars for some text? for the whole window? pop-ups for errors?
-# At the least, make it so the window doesn't need to strech greatly to display the output
-
-# - More explicitly seperate Model, View, and Controller using appropriate design patterns
-
-# - Create README
-
-# - Improve directory structure to mirror that of a legit Python App
 
 class App(Tk):
 
@@ -23,7 +11,7 @@ class App(Tk):
 
         Tk.__init__(self, parent)
 
-        self.title("Josh's Number-Recognizing Neural Network")
+        self.title("MNIST Sandbox")
 
         self.mlp = None
 
