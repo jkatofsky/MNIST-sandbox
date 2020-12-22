@@ -19,7 +19,7 @@ allows users to train it on the MNIST handwritten digit dataset with a custom ba
    pip3 install -r requirements.txt
    ```
 
-3. Run the sandbox! It may take longer than usual on the first launch, as it downlaod the training data.
+3. Run the sandbox! It will take longer than usual on the first launch as it downloads the training data.
 
    ```bash
    python3 App.py
