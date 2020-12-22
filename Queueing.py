@@ -40,15 +40,15 @@ class Queueing:
     def activate(self):
         self.digits_queued = 0
         self.predictions_correct = 0
-        self.queue_drawing_button.config(state='normal')
+        self.queue_drawing_button.config(state=NORMAL)
         self.disable_evaluation()
         self.update_evaluation_string()
         self.update_output_string(None)
 
     def enable_evaluation(self):
-        self.prediction_eval_yes.config(state='normal')
-        self.prediction_eval.config(state='normal')
-        self.send_eval_button.config(state='normal')
+        self.prediction_eval_yes.config(state=NORMAL)
+        self.prediction_eval.config(state=NORMAL)
+        self.send_eval_button.config(state=NORMAL)
 
     def disable_evaluation(self):
         self.prediction_eval_yes.config(state=DISABLED)
@@ -62,6 +62,7 @@ class Queueing:
             precent_dict[str(i)] = round(outputs[i] / sum(outputs) * 100, 2)
         sorted_digits = sorted(precent_dict, key=precent_dict.get, reverse=True)
         string = ""
+        # TODO: use join()
         for i in range(len(sorted_digits)):
             string += sorted_digits[i] + " (" + str(precent_dict[sorted_digits[i]]) + "%)"
             if i < len(sorted_digits) - 1:
@@ -75,6 +76,7 @@ class Queueing:
             string = "Ordered Digit Predictions and % Certainties: " + self.get_output_string(outputs)
         self.output_label.config(text=string)
 
+    #TODO: cleanup
     def update_evaluation_string(self):
         string = "Predictions Correct: " + str(self.predictions_correct) + "/" + str(self.digits_queued)
         if self.digits_queued != 0:

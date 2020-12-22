@@ -59,8 +59,8 @@ class Training:
 
     def activate(self):
         self.iterations = 0
-        self.batch_input.config(state="normal")
-        self.train_button.config(state="normal")
+        self.batch_input.config(state=NORMAL)
+        self.train_button.config(state=NORMAL)
         self.update_training_info()
 
     def update_training_info(self):
