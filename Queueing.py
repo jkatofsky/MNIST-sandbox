@@ -1,6 +1,6 @@
 from tkinter import *
 from MLP import *
-import numpy as numpy
+import numpy as np
 
 
 class Queueing:
@@ -77,7 +77,7 @@ class Queueing:
 
     def update_evaluation_string(self):
         string = "Predictions Correct: " + str(self.predictions_correct) + "/" + str(self.digits_queued)
-        if self.digits_queued is not 0:
+        if self.digits_queued != 0:
             percentage = round(((self.predictions_correct / self.digits_queued) * 100), 2)
         else:
             percentage = "N/A"
@@ -90,10 +90,10 @@ class Queueing:
         self.update_evaluation_string()
         self.disable_evaluation()
 
-    def queue_drawn_digit(self, mlp, image_vals):
+    def queue_drawing(self, mlp, image_vals):
         image_vals = [(255 - value) for value in image_vals]
         print(image_vals)
-        inputs = (numpy.asfarray(image_vals) / 255.0 * 0.99) + 0.01
+        inputs = (np.asfarray(image_vals) / 255.0 * 0.99) + 0.01
         print(inputs)
         outputs = mlp.query(inputs)
         print(outputs)

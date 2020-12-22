@@ -1,7 +1,6 @@
 from tkinter import *
-from MLP import *
-import numpy
-import os
+from MLP import MLP
+import numpy as np
 import random
 
 
@@ -9,10 +8,8 @@ class Training:
 
     def __init__(self, parent):
 
-        # the training data is not included in the remote repo because it exceeds GitHub's file size limit
-        # http://yann.lecun.com/exdb/mnist/
         with open("training-data.csv", "r") as data_fp:
-            self.data = data_fp.readlines()
+            self.data = data_fp.readlines()[1:]
 
         self.training_frame = Frame(parent, borderwidth=2, relief=RIDGE)
         self.training_frame.pack()
@@ -37,19 +34,20 @@ class Training:
         self.info_label = Label(self.info_frame, text="N/A")
         self.info_label.pack(side=BOTTOM)
 
+    # TODO: lots of magic numbers here
     def train_mlp(self, mlp):
         try:
 
             target = int(self.batch_input.get())
 
-            data = [random.choice(self.data) for i in range(target)]
+            data = [random.choice(self.data) for _ in range(target)]
 
             for entry in data:
 
                 image_vals = entry.split(",")
-                inputs = (numpy.asfarray(image_vals[1:]) / 255.0 * 0.99) + 0.01
-                targets = numpy.zeros(10) + 0.01
-                targets[int(image_vals[0])] = 0.99
+                inputs = (np.asfarray(image_vals[:-1]) / 255.0 * 0.99) + 0.01
+                targets = np.zeros(10) + 0.01
+                targets[int(image_vals[-1])] = 0.99
                 mlp.train(inputs, targets)
 
                 self.iterations += 1
