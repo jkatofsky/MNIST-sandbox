@@ -1,3 +1,4 @@
+from tkinter import messagebox
 from tkinter import *
 from Drawing import Drawing
 from Options import Options
@@ -8,14 +9,23 @@ import sys
 import requests
 
 
-def download_training_data_if_none():
+def download_training_data_if_none(root):
     if path.exists('training-data.csv'):
         return
-    training_data = requests.get("https://datahub.io/machine-learning/mnist_784/r/mnist_784.csv", allow_redirects=True)
-    if training_data.status_code != 200:
-        sys.exit(1) #TODO: error message somehow?
-    with open('training-data.csv', 'w') as data_fp:
-        data_fp.writelines(training_data.text)
+
+    will_download_data = messagebox.askquestion(title="Download training data", message="MNIST Sandbox must download the training data before proceeding.")
+    
+    if will_download_data == "yes":
+
+        training_data = requests.get("https://datahub.io/machine-learning/mnist_784/r/mnist_784.csv", allow_redirects=True)
+        if training_data.status_code != 200:
+            sys.exit(1) #TODO: error message somehow?
+        with open('training-data.csv', 'w') as data_fp:
+            data_fp.writelines(training_data.text)
+
+    else:
+        root.destroy()
+        sys.exit(0)
 
 class App(Tk):
 
@@ -27,11 +37,16 @@ class App(Tk):
 
         self.mlp = None
 
+        self.withdraw()
+
+        download_training_data_if_none(self)
+
         self.drawing = Drawing(self)
         self.options = Options(self)
         self.training = Training(self)
         self.queueing = Queueing(self)
 
+        self.deiconify()
         self.mainloop()
 
     def update_mlp(self):
@@ -51,5 +66,4 @@ class App(Tk):
 
 
 if __name__ == "__main__":
-    download_training_data_if_none()
     app = App(None)
